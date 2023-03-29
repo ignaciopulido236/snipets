@@ -48,57 +48,59 @@ scene.collection.objects.link(obj)
 
 
 ########
-file_id=0
-file_id_len=len(str(file_id))
-if file_id_len==1:
-    selected_file='layer_0000' +str(file_id)+'.json'
-elif file_id_len==2:
-    selected_file='layer_000' +str(file_id)+'.json'
-elif file_id_len==3:
-    selected_file='layer_00' +str(file_id)+'.json'
-elif file_id_len==4:
-    selected_file='layer_0' +str(file_id)+'.json'
-elif file_id_len==5:
-    selected_file='layer_' +str(file_id)+'.json'
-    
-    
-os.chdir(r"C:\Users\ignac\Upwork\Tom Hayden\layers_info_json")
-with open(selected_file, 'r') as f:
-    # Load the JSON data into a Python dictionary
-    data = json.load(f)
-#print(data)
-#
-mesh = bpy.data.meshes.new(data['file_name'])
-bm = bmesh.new()
+for k in range(0,13827):
 
-print(data['vertices'])
-new_verts = []
-for vertex in data['vertices']:
-    
-    new_verts.append(bm.verts.new(vertex))
-bm.faces.new(new_verts)
+    file_id=k
+    file_id_len=len(str(file_id))
+    if file_id_len==1:
+        selected_file='layer_0000' +str(file_id)+'.json'
+    elif file_id_len==2:
+        selected_file='layer_000' +str(file_id)+'.json'
+    elif file_id_len==3:
+        selected_file='layer_00' +str(file_id)+'.json'
+    elif file_id_len==4:
+        selected_file='layer_0' +str(file_id)+'.json'
+    elif file_id_len==5:
+        selected_file='layer_' +str(file_id)+'.json'
+        
+        
+    os.chdir(r"C:\Users\ignac\Upwork\Tom Hayden\layers_info_json")
+    with open(selected_file, 'r') as f:
+        # Load the JSON data into a Python dictionary
+        data = json.load(f)
+    #print(data)
+    #
+    mesh = bpy.data.meshes.new(data['file_name'])
+    bm = bmesh.new()
 
-height=float(data['height'])
-# Extrude the face
-bm.faces.ensure_lookup_table()
-faces = [bm.faces[0]]
-extruded = bmesh.ops.extrude_face_region(bm, geom=faces)
-translate_verts = [v for v in extruded['geom'] if isinstance(v, bmesh.types.BMVert)]
-bmesh.ops.translate(bm, vec=(0, 0, height), verts=translate_verts)
+    print(data['vertices'])
+    new_verts = []
+    for vertex in data['vertices']:
+        
+        new_verts.append(bm.verts.new(vertex))
+    bm.faces.new(new_verts)
 
-# Finish the bmesh and write the data to the mesh data block
-bm.to_mesh(mesh)
-bm.free()
+    height=float(data['height'])
+    # Extrude the face
+    bm.faces.ensure_lookup_table()
+    faces = [bm.faces[0]]
+    extruded = bmesh.ops.extrude_face_region(bm, geom=faces)
+    translate_verts = [v for v in extruded['geom'] if isinstance(v, bmesh.types.BMVert)]
+    bmesh.ops.translate(bm, vec=(0, 0, height), verts=translate_verts)
 
-# Create a new object using the mesh data block
-obj = bpy.data.objects.new(data['file_name'], mesh)
+    # Finish the bmesh and write the data to the mesh data block
+    bm.to_mesh(mesh)
+    bm.free()
 
-# Add the object to the scene
-scene = bpy.context.scene
-scene.collection.objects.link(obj)
+    # Create a new object using the mesh data block
+    obj = bpy.data.objects.new(data['file_name'], mesh)
+
+    # Add the object to the scene
+    scene = bpy.context.scene
+    scene.collection.objects.link(obj)
 
 
 #Save to stl
 
-filepath = "C:/Users/ignac/OneDrive/Escritorio/extruded.stl"
+filepath = "C:/Users/ignac/OneDrive/Escritorio/case_11924_zoom.stl"
 bpy.ops.export_mesh.stl(filepath=filepath, check_existing=False)
