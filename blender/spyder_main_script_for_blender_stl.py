@@ -22,7 +22,7 @@ os.chdir(r"C:\Users\ignac\Upwork\Tom Hayden\Second_Map\shapefiles\third_map_in_c
 
 data_source= ogr.Open("shapefile.shp",0)
 
-FEATURE_NUMBER=1
+FEATURE_NUMBER=0
 
 
 layer = data_source.GetLayer(0)
@@ -54,19 +54,20 @@ elif geometry.GetGeometryName() == 'POLYGON':
 # do something with the polygons (e.g., get their coordinates)
 new_coordinates = []
 new_vertices=[]
-file_number=0
+poly_number=0
 for polygon in polygons:
-    file_name="\layer_"+str(FEATURE_NUMBER)+"poly_"+str(file_number)+".json"
+    new_coordinates.append([polygon.GetX,polygon.GetY])
+    file_name="\layer_"+str(FEATURE_NUMBER)+"poly_"+str(poly_number)+".json"
     # do something with the polygon
     new_coordinates.append([polygon.GetX(),polygon.GetY()])
-    file_number=file_number+1
+    poly_number=poly_number+1
     
     output_path=r"C:\Users\ignac\Upwork\Tom Hayden\Second_Map\shapefiles\third_map_in_cartesian\layer_info_json_for_step"
     file = open(str(output_path+file_name) , "w")
     file.write('{\n')
-    file.write('"layer_FID":'+'"' +str(int(file_number)) + '",')
+    file.write('"layer_FID":'+'"' +str(int(poly_number)) + '",')
     file.write('\n')
-    file.write('"file_name":'+'"' + str(file_number) + '",')
+    file.write('"file_name":'+'"' + str(poly_number) + '",')
     file.write('\n')
     file.write('"num_vertices":'+'"' +str(int(number_of_vertex)) + '",')
     file.write('\n')
@@ -81,7 +82,27 @@ for polygon in polygons:
 
     file.write('}')
     file.close()
+    file_name="feature_"+str(FEATURE_NUMBER)+"_poly_"+str(poly_number)
     
+    poly_number=poly_number+1
+    filename_json=f"\{file_name}.json"
+    output_path=r"C:\Users\ignac\Upwork\Tom Hayden\Second_Map\shapefiles\third_map_in_cartesian\layer_info_json_for_step"
+    file = open(str(output_path+filename_json) , "w")
+    file.write('\n')
+    file.write('"file_name":'+'"' + str(filename_json) + '",')
+    file.write('\n')
+    file.write('"num_vertices":'+'"' +str(int(number_of_vertex)) + '",')
+    file.write('\n')
+    file.write('"coordinates":'+ str(new_coordinates).replace("(","[").replace(")","]") +',' )
+    file.write('\n')
+    file.write('"vertices":' + str(new_vertices).replace("(","[").replace(")","]")+',' )
+    file.write('\n')
+    file.write('"elev":'+'"' + str(elev) + '"')
+    file.write('\n')
+    #file.write(str(new_coordinates))
+    
+    file.write('}')
+    file.close()
 
 new_vertices=new_coordinates
 
