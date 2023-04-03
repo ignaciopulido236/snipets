@@ -22,11 +22,14 @@ os.chdir(r"C:\Users\ignac\Upwork\Tom Hayden\Second_Map\shapefiles\third_map_in_c
 
 data_source= ogr.Open("shapefile.shp",0)
 
+FEATURE_NUMBER=1
+
+
 layer = data_source.GetLayer(0)
 #name=data_layer.GetField("name")
 number_of_layer=data_source.GetLayerCount()
 # Get the first feature in the layer
-feature = layer.GetFeature(1)
+feature = layer.GetFeature(FEATURE_NUMBER)
 name=feature.GetField("FID")
 elev=feature.GetField("ELEV")
 geom = feature.GetGeometryRef()
@@ -49,9 +52,41 @@ elif geometry.GetGeometryName() == 'POLYGON':
     polygons.append(geometry)
 
 # do something with the polygons (e.g., get their coordinates)
+new_coordinates = []
+new_vertices=[]
+file_number=0
 for polygon in polygons:
+    file_name="\layer_"+str(FEATURE_NUMBER)+"poly_"+str(file_number)+".json"
     # do something with the polygon
-    print(polygon.GetPoint(1))
+    new_coordinates.append([polygon.GetX(),polygon.GetY()])
+    file_number=file_number+1
+    
+    output_path=r"C:\Users\ignac\Upwork\Tom Hayden\Second_Map\shapefiles\third_map_in_cartesian\layer_info_json_for_step"
+    file = open(str(output_path+file_name) , "w")
+    file.write('{\n')
+    file.write('"layer_FID":'+'"' +str(int(file_number)) + '",')
+    file.write('\n')
+    file.write('"file_name":'+'"' + str(file_number) + '",')
+    file.write('\n')
+    file.write('"num_vertices":'+'"' +str(int(number_of_vertex)) + '",')
+    file.write('\n')
+    file.write('"coordinates":'+ str(new_coordinates).replace("(","[").replace(")","]") +',' )
+    file.write('\n')
+    file.write('"vertices":' + str(new_vertices).replace("(","[").replace(")","]")+',' )
+    file.write('\n')
+    file.write('"elev":'+'"' + str(elev))
+    file.write('\n')
+    
+    #file.write(str(new_coordinates))
+
+    file.write('}')
+    file.close()
+    
+
+new_vertices=new_coordinates
+
+
+filename_json=f"\{file_name}.json"
 
 
 
