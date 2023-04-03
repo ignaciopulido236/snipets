@@ -70,46 +70,24 @@ for polygon in polygons:
     output_path=r"C:\Users\ignac\Upwork\Tom Hayden\Second_Map\shapefiles\third_map_in_cartesian\layer_info_json_for_step"
     file = open(str(output_path+file_name) , "w")
     file.write('{\n')
-    file.write('"layer_FID":'+'"' +str(int(poly_number)) + '",')
-    file.write('\n')
-    file.write('"file_name":'+'"' + str(poly_number) + '",')
+    file.write('"feature_number":'+'"' +str(int(FEATURE_NUMBER)) + '",')
+
     file.write('\n')
     file.write('"num_vertices":'+'"' +str(int(1)) + '",')
     file.write('\n')
-    file.write('"coordinates":'+ str(new_coordinates).replace("(","[").replace(")","]") +',' )
+    file.write('"coordinates":'+ str(new_coordinates)+',' )
     file.write('\n')
-    file.write('"vertices":' + str(new_vertices).replace("(","[").replace(")","]")+',' )
+    file.write('"vertices":' + str(new_vertices)+',' )
     file.write('\n')
-    file.write('"elev":'+'"' + str(elev))
+    file.write('"elev":'+'"' + str(elev)+'"')
     file.write('\n')
+    file.write('}')
+    file.close()
     
     #file.write(str(new_coordinates))
 
-    file.write('}')
-    file.close()
-    file_name="feature_"+str(FEATURE_NUMBER)+"_poly_"+str(poly_number)
-    
-    poly_number=poly_number+1
-    filename_json=f"\{file_name}.json"
-    output_path=r"C:\Users\ignac\Upwork\Tom Hayden\Second_Map\shapefiles\third_map_in_cartesian\layer_info_json_for_step"
-    file = open(str(output_path+filename_json) , "w")
-    file.write('{')
+  
 
-    file.write('\n')
-    file.write('"num_vertices":'+'"' +str(int(number_of_vertex)) + '",')
-    file.write('\n')
-    file.write('"coordinates":'+ str(new_coordinates).replace("(","[").replace(")","]") +',' )
-    file.write('\n')
-    file.write('"vertices":' + str(new_vertices).replace("(","[").replace(")","]")+',' )
-    file.write('\n')
-    file.write('"elev":'+'"' + str(elev) + '"')
-    file.write('\n')
-    #file.write(str(new_coordinates))
-    
-    file.write('}')
-    file.close()
-
-new_vertices=new_coordinates
 
 
 
