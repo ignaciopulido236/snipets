@@ -73,7 +73,7 @@ for polygon in polygons:
     file.write('"feature_number":'+'"' +str(int(FEATURE_NUMBER)) + '",')
 
     file.write('\n')
-    file.write('"num_vertices":'+'"' +str(int(1)) + '",')
+    file.write('"num_vertices":'+'"' +str(int(number_of_points)) + '",')
     file.write('\n')
     file.write('"coordinates":'+ str(new_coordinates)+',' )
     file.write('\n')
