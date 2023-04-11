@@ -18,9 +18,9 @@ Created on Mon Mar 20 20:09:45 2023
 from osgeo import ogr
 
 import os
-os.chdir(r"C:\Users\ignac\Upwork\Tom Hayden\Second_Map\shapefiles\third_map_in_cartesian")
+os.chdir(r"C:\Users\ignac\Upwork\Tom Hayden\Fourth_Map\basemap_contour_sample3\basemap_contour_sample3")
 
-data_source= ogr.Open("shapefile.shp",0)
+data_source= ogr.Open("basemap.shp",0)
 
 FEATURE_NUMBER=17
 
@@ -77,7 +77,7 @@ for FEATURE_NUMBER in range(0,17):
         # do something with the polygon
         poly_number=poly_number+1
         
-        output_path=r"C:\Users\ignac\Upwork\Tom Hayden\Second_Map\shapefiles\third_map_in_cartesian\layer_info_json_for_step"
+        output_path=r"C:\Users\ignac\Upwork\Tom Hayden\Fourth_Map\layer_info_json_for_step"
         file = open(str(output_path+file_name) , "w")
         file.write('{\n')
         file.write('"feature_number":'+'"' +str(int(FEATURE_NUMBER)) + '",')
@@ -89,7 +89,9 @@ for FEATURE_NUMBER in range(0,17):
         file.write('\n')
         file.write('"vertices":' + str(new_vertices)+',' )
         file.write('\n')
-        file.write('"elev":'+'"' + str(elev+11)+'"')
+        file.write('"elev":'+'"' + str(elev+11)+'",')
+        file.write('\n')
+        file.write('"offset":'+'"' + str(0)+'"')
         file.write('\n')
         file.write('}')
         file.close()
