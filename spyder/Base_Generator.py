@@ -18,3 +18,5 @@ s = s.close()
 solid = s.extrude(float(10))
 file_path = r'C:\Users\ignac\Upwork\Tom Hayden\Fourth_Map\base\zz-base.step'
 cq.exporters.export(solid, file_path, 'STEP')
+
+print(str([(xx_min,yy_min),(xx_max,yy_min),(xx_max,yy_max),(xx_min,yy_max)]))
